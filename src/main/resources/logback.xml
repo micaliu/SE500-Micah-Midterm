@@ -1,0 +1,47 @@
+<configuration>
+	<consolePlugin />
+	<!-- 控制台 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss} %-5level %logger:%L - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 系统日志 -->
+	<appender name="se530" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/se530.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/se530.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger:%L - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 性能日志 -->
+	<appender name="profile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/profile.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/profile.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<charset>UTF-8</charset> 
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<logger name="console" additivity="false" level="info">
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="edu.olivet.se530" additivity="false" level="info">
+		<appender-ref ref="se530" />
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="edu.olivet.se530.ProfileLogger" additivity="false" level="debug">
+		<appender-ref ref="profile" />
+	</logger>
+	<root level="info">
+		<appender-ref ref="console" />
+	</root>
+</configuration>
