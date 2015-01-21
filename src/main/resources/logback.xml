@@ -38,7 +38,7 @@
 		<appender-ref ref="se530" />
 		<appender-ref ref="console" />
 	</logger>
-	<logger name="edu.olivet.se530.ProfileLogger" additivity="false" level="debug">
+	<logger name="edu.olivet.se530.aop.ProfileIntecepter" additivity="false" level="debug">
 		<appender-ref ref="profile" />
 	</logger>
 	<root level="info">
