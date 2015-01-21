@@ -1,14 +1,49 @@
 package edu.olivet.se530;
 
-import edu.olivet.se530.model.Order;
-import edu.olivet.se530.model.Seller;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
-/**
- * Seller猎手接口定义
- * @author <a href="mailto:nathanaelibport@gmail.com">Nathanael Yang</a> Jan 7, 2015 4:45:16 PM
- */
-public interface SellerHunter {
+import org.jsoup.nodes.Document;
 
-	public Seller hunt(Order order);
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
+import edu.olivet.se530.model.Offer;
+import edu.olivet.se530.model.Product;
+
+@Singleton
+public class SellerHunter {
+	@Inject private HtmlCrawler htmlFetcher;
+	@Inject private HtmlParser htmlParser;
 	
+	/**
+	 * 根据给定的isbn和condition，返回亚马逊网站上面的Offer列表
+	 * @param isbn		产品的ISBN编号，参见:{@link Product#getIsbn()}
+	 * @param condition	产品的Condition
+	 */
+	public Offer getOfferList(String isbn, String condition) throws MalformedURLException, IOException {
+		Document doc = htmlFetcher.getDocument(isbn, condition);
+		List<Offer> offers = htmlParser.parseOffer(doc);
+		
+		for (Iterator<Offer> iterator = offers.iterator(); iterator.hasNext();) {
+			Offer offer = iterator.next();
+			if (!this.evalute(offer)) {
+				iterator.remove();
+			}
+		}
+		
+		Collections.sort(offers);
+		return offers.get(0);
+	}
+
+	/**
+	 * 对一个Offer按照价格、运费、Rating等等标准进行审查
+	 * @param offer
+	 */
+	public boolean evalute(Offer offer) {
+		return offer.getSeller().getRating() >= 95;
+	}
 }
