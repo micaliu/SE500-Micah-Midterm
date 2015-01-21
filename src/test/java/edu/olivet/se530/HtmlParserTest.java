@@ -5,17 +5,25 @@ import java.net.MalformedURLException;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
+import org.jukito.JukitoRunner;
+import org.jukito.UseModules;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.google.inject.Inject;
 
 import edu.olivet.se530.dummy.DummyHtmlCrawler;
 import edu.olivet.se530.model.Condition;
 import edu.olivet.se530.model.Offer;
 import edu.olivet.se530.model.Seller;
+import edu.olivet.se530.modules.ProfileModule;
 
+@RunWith(JukitoRunner.class)
+@UseModules(value = ProfileModule.class)
 public class HtmlParserTest {
-	private HtmlParser htmlParser = new HtmlParser();
+	@Inject private HtmlParser htmlParser;
 	private static Document document;
 	
 	@BeforeClass public static void prepareDocument() throws MalformedURLException, IOException {

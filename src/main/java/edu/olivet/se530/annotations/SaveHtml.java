@@ -1,4 +1,4 @@
-package edu.olivet.se530.aop;
+package edu.olivet.se530.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

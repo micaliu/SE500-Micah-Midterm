@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import edu.olivet.se530.aop.Profile;
+import edu.olivet.se530.annotations.Profile;
 import edu.olivet.se530.model.Condition;
 import edu.olivet.se530.model.Offer;
 import edu.olivet.se530.model.Seller;
@@ -39,6 +39,7 @@ public class HtmlParser {
 		return results;
 	}
 
+	@Profile
 	public Condition parseCondition(Element row) {
 		String cond = this.getText(row, "h3.a-spacing-small.olpCondition");
 		String[] array = cond.split("-");
@@ -48,6 +49,7 @@ public class HtmlParser {
 		return condition;
 	}
 
+	@Profile
 	public Seller parseSeller(Element row) {
 		Seller seller = new Seller();
 		String sellerNameSelector = "p.a-spacing-small.olpSellerName";
@@ -79,6 +81,7 @@ public class HtmlParser {
 		return seller;
 	}
 
+	@Profile
 	public String getText(Element element, String selector) {
 		Elements elements = element.select(selector);
 		if (elements.size() <= 0) {

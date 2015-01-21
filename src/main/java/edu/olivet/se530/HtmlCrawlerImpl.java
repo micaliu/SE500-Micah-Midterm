@@ -8,8 +8,8 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import edu.olivet.se530.aop.Profile;
-import edu.olivet.se530.aop.SaveHtml;
+import edu.olivet.se530.annotations.Profile;
+import edu.olivet.se530.annotations.SaveHtml;
 
 public class HtmlCrawlerImpl implements HtmlCrawler {
 	private static final String AMAZON_HOST = "http://www.amazon.com";
