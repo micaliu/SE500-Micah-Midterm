@@ -27,7 +27,6 @@ public class TestSellerHunterAssignment {
 		sellerHunter.setHtmlParser(new HtmlParser());
 	}
 	
-	
 	@Test public void test_offer_hunt_exclude_ship_from_uk() throws MalformedURLException, IOException {
 		Assert.assertEquals("Free State Books", sellerHunter.huntOffer("0751515736",	"Used").getSeller().getName());
 		Assert.assertEquals("the_book_depository_", sellerHunter.huntOffer("907871496",	"New").getSeller().getName());
