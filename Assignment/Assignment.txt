@@ -1,0 +1,12 @@
+ISBN		Condition	Expected Result
+751515736	Used		Free State Books
+907871496	New			the_book_depository_
+1416532277	New			BookSeller USA, LLC
+135157862	New			AP
+
+规则:
+1.Rating必须在95以上
+2.Rating数必须在100以上
+3.不能从英国发货
+4.排序原则：价格(卖价+运费，如果是Prime，35元以上免运费)升序，Rating降序，Rating数降序
+

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -13,7 +14,9 @@ public class DummyHtmlCrawler implements HtmlCrawler {
 
 	@Override
 	public Document getDocument(String isbn, String condition) throws MalformedURLException, IOException {
-		return Jsoup.parse(new File("C:/OrderManRnD/Workspace/SE530Classic/TEST.html"), "UTF-8");
+		String rootDir = new File(StringUtils.EMPTY).getAbsolutePath();
+		File html = new File(rootDir, "Assignment" + File.separator + String.format("%s_%s_1.html", isbn, condition.toUpperCase()));
+		return Jsoup.parse(html, "UTF-8");
 	}
 
 }

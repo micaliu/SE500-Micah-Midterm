@@ -14,7 +14,7 @@ public class SellerHunterEntry {
 
 	public static void main(String[] args) throws MalformedURLException, IOException {
 		SellerHunter hunter = new SellerHunter();
-		Offer offer = hunter.getOfferList("031043601X", "New");
+		Offer offer = hunter.huntOffer("031043601X", "New");
 		System.out.println(offer);
 	}	
 }

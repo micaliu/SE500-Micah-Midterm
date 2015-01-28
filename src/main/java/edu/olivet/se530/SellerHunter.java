@@ -24,7 +24,7 @@ public class SellerHunter {
 	 * @param isbn		产品的ISBN编号，参见:{@link Product#getIsbn()}
 	 * @param condition	产品的Condition
 	 */
-	public Offer getOfferList(String isbn, String condition) throws MalformedURLException, IOException {
+	public Offer huntOffer(String isbn, String condition) throws MalformedURLException, IOException {
 		Document doc = htmlFetcher.getDocument(isbn, condition);
 		List<Offer> offers = htmlParser.parseOffer(doc);
 		
@@ -45,5 +45,13 @@ public class SellerHunter {
 	 */
 	public boolean evalute(Offer offer) {
 		return offer.getSeller().getRating() >= 95;
+	}
+
+	public void setHtmlFetcher(HtmlCrawler htmlFetcher) {
+		this.htmlFetcher = htmlFetcher;
+	}
+
+	public void setHtmlParser(HtmlParser htmlParser) {
+		this.htmlParser = htmlParser;
 	}
 }

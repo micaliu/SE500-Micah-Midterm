@@ -23,7 +23,7 @@ public class SellerHunterTest {
 	private String condition = "Used - Good";
 	
 	@Test public void test_get_offer_list() throws MalformedURLException, IOException {
-		Offer offer = hunter.getOfferList(isbn, condition);
+		Offer offer = hunter.huntOffer(isbn, condition);
 		Assert.assertEquals("Goodwill Southern California", offer.getSeller().getName());
 	}
 }
