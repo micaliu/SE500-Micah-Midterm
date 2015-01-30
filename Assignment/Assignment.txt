@@ -10,3 +10,6 @@ ISBN		Condition	Expected Result
 3.不能从英国发货
 4.排序原则：价格(卖价+运费，如果是Prime，35元以上免运费)升序，Rating降序，Rating数降序
 
+备注：
+AP因为是亚马逊负责，其Rating和Rating数可以无视上面规则的1、2，也即其一定满足条件1、2
+
