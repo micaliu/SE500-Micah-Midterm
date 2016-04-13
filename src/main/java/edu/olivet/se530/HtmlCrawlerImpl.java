@@ -1,7 +1,6 @@
 package edu.olivet.se530;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.jsoup.Connection;
@@ -17,12 +16,11 @@ public class HtmlCrawlerImpl implements HtmlCrawler {
 	@Override
 	@Profile(desc = "通过给定的isbn和condition获取对应的html document")
 	@SaveHtml
-	public Document getDocument(String isbn, String condition) throws MalformedURLException, IOException {
+	public Document getDocument(String isbn, String condition) throws IOException {
 		String url = String.format("%s/gp/offer-listing/%s/ref=olp_tab_%s?ie=UTF8&condition=%s&sr=8-1", 
 				     AMAZON_HOST, isbn, condition.toLowerCase(), condition.toLowerCase());
 		Connection conn = this.getConnection(new URL(url));
-		Document document = conn.get();
-		return document;
+        return conn.get();
 	}
 	
 	private Connection getConnection(URL url) {

@@ -1,7 +1,6 @@
 package edu.olivet.se530;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import org.jsoup.nodes.Document;
@@ -26,7 +25,7 @@ public class HtmlParserTest {
 	@Inject private HtmlParser htmlParser;
 	private static Document document;
 	
-	@BeforeClass public static void prepareDocument() throws MalformedURLException, IOException {
+	@BeforeClass public static void prepareDocument() throws IOException {
 		document = new DummyHtmlCrawler().getDocument("", "");
 	}
 	

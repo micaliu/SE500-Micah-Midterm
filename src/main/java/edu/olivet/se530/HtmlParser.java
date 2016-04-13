@@ -1,38 +1,33 @@
 package edu.olivet.se530;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import edu.olivet.se530.annotations.Profile;
+import edu.olivet.se530.model.*;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import edu.olivet.se530.annotations.Profile;
-import edu.olivet.se530.model.Condition;
-import edu.olivet.se530.model.Offer;
-import edu.olivet.se530.model.Seller;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HtmlParser {
 	
 	@Profile(desc = "解析一个给定的html document，返回其中的offer列表")
-	public List<Offer> parseOffer(Document doc) {
-		List<Offer> results = new ArrayList<Offer>();
+	List<Offer> parseOffer(Document doc) {
+		List<Offer> results = new ArrayList<>();
 		Elements rows = doc.select("div.a-row.a-spacing-mini.olpOffer");
-		for (int i = 0; i < rows.size(); i++) {
-			Element row = rows.get(i);
-			
+		for (Element row : rows) {
 			Offer offer = new Offer();
 			offer.setPrice(Float.parseFloat(this.getText(row, "span.olpOfferPrice").replace("$", "")));
 			String shippingFeeText = this.getText(row, "span.olpShippingPrice").replace("$", "");
 			if (shippingFeeText != null && shippingFeeText.trim().length() > 0) {
 				offer.setShippingPrice(Float.parseFloat(shippingFeeText));
 			}
-			
+
 			Seller seller = this.parseSeller(row);
 			Condition condition = parseCondition(row);
 			offer.setSeller(seller);
 			offer.setCondition(condition);
-			
+
 			results.add(offer);
 		}
 		
@@ -40,7 +35,7 @@ public class HtmlParser {
 	}
 
 	@Profile
-	public Condition parseCondition(Element row) {
+	Condition parseCondition(Element row) {
 		String cond = this.getText(row, "h3.a-spacing-small.olpCondition");
 		String[] array = cond.split("-");
 		Condition condition = new Condition();
@@ -50,7 +45,7 @@ public class HtmlParser {
 	}
 
 	@Profile
-	public Seller parseSeller(Element row) {
+	Seller parseSeller(Element row) {
 		Seller seller = new Seller();
 		String sellerNameSelector = "p.a-spacing-small.olpSellerName";
 		seller.setName(this.getText(row, sellerNameSelector));
@@ -66,8 +61,8 @@ public class HtmlParser {
 		seller.setRatingCount(Integer.parseInt(ratingCountText));
 		
 		Elements deliveries = row.select("ul.a-vertical > li > span.a-list-item");
-		for (int j = 0; j < deliveries.size(); j++) {
-			String text = deliveries.get(j).text();
+		for (Element element : deliveries) {
+			String text = element.text();
 			if (text.contains("Expedited shipping available")) {
 				seller.setExpeditedShippingAvailable(true);
 			} else if (text.contains("International & domestic shipping rates and return policy")) {
@@ -82,7 +77,7 @@ public class HtmlParser {
 	}
 
 	@Profile
-	public String getText(Element element, String selector) {
+	String getText(Element element, String selector) {
 		Elements elements = element.select(selector);
 		if (elements.size() <= 0) {
 			return "";

@@ -30,7 +30,7 @@ public class Condition implements Comparable<Condition> {
 		this.secondary = secondary;
 	}
 
-	public int getPrimaryValue() {
+	private int getPrimaryValue() {
 		return primaryValue;
 	}
 
@@ -38,7 +38,7 @@ public class Condition implements Comparable<Condition> {
 		this.primaryValue = primaryValue;
 	}
 
-	public int getSecondaryValue() {
+	private int getSecondaryValue() {
 		return secondaryValue;
 	}
 
@@ -54,7 +54,7 @@ public class Condition implements Comparable<Condition> {
 	public static final int USED = 50;
 	public static final int LIKE_NEW = 10;
 	public static final int VERY_GOOD = 5;
-	public static final int GOOG = 5;
+	public static final int GOOD = 5;
 	public static final int ACCEPTABLE = 0;
 	
 	private int primaryValue;

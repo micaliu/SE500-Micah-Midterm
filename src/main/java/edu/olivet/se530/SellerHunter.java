@@ -1,7 +1,6 @@
 package edu.olivet.se530;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -24,13 +23,13 @@ public class SellerHunter {
 	 * @param isbn		产品的ISBN编号，参见:{@link Product#getIsbn()}
 	 * @param condition	产品的Condition
 	 */
-	public Offer huntOffer(String isbn, String condition) throws MalformedURLException, IOException {
+	public Offer huntOffer(String isbn, String condition) throws IOException {
 		Document doc = htmlFetcher.getDocument(isbn, condition);
 		List<Offer> offers = htmlParser.parseOffer(doc);
 		
 		for (Iterator<Offer> iterator = offers.iterator(); iterator.hasNext();) {
 			Offer offer = iterator.next();
-			if (!this.evalute(offer)) {
+			if (!this.evaluate(offer)) {
 				iterator.remove();
 			}
 		}
@@ -41,9 +40,8 @@ public class SellerHunter {
 
 	/**
 	 * 对一个Offer按照价格、运费、Rating等等标准进行审查
-	 * @param offer
 	 */
-	public boolean evalute(Offer offer) {
+    private boolean evaluate(Offer offer) {
 		return offer.getSeller().getRating() >= 95;
 	}
 

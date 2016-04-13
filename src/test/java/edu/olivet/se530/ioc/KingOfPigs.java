@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class KingOfPigs {
+class KingOfPigs {
 	@Inject private AbstractPig queenOfPigs;
 	@Inject private AbstractPig pigPrince;
 	@Inject private AbstractPig pigGeneral;
@@ -14,13 +14,13 @@ public class KingOfPigs {
 		return "KingOfPigs [queenOfPigs=" + queenOfPigs + ", pigPrince=" + pigPrince + ", pigGeneral=" + pigGeneral + "]";
 	}
 	
-	public void setPigPrince(AbstractPig pigPrince) {
+	void setPigPrince(AbstractPig pigPrince) {
 		this.pigPrince = pigPrince;
 	}
-	public void setPigGeneral(AbstractPig pigGeneral) {
+	void setPigGeneral(AbstractPig pigGeneral) {
 		this.pigGeneral = pigGeneral;
 	}
-	public void setQueenOfPigs(AbstractPig queenOfPigs) {
+	void setQueenOfPigs(AbstractPig queenOfPigs) {
 		this.queenOfPigs = queenOfPigs;
 	}
 }

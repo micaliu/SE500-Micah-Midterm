@@ -26,7 +26,7 @@ public class IOCContainerTest {
 		}
 	}
 	
-	private Map<String, Integer> config = new HashMap<String, Integer>();
+	private final Map<String, Integer> config = new HashMap<>();
 	
 	@Before public void init() {
 		config.put("queenOfPigs", 30);
@@ -36,7 +36,7 @@ public class IOCContainerTest {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test public void create_instance_from_definition() {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		String className = "edu.olivet.se530.ioc.AbstractPig";
 		
 		long start = System.currentTimeMillis();
@@ -58,24 +58,12 @@ public class IOCContainerTest {
 			System.out.println("通过反射创建的猪王:" + pigKing);
 			System.out.println("反射耗时:" + (System.currentTimeMillis() - start));
 			System.out.println("=================================");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (InstantiationException e) {
+		} catch (ClassNotFoundException | InstantiationException | InvocationTargetException | IllegalArgumentException | IllegalAccessException | SecurityException | NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		
-		
-		System.out.println("Guice is here:");
+
+
+        System.out.println("Guice is here:");
 		KingOfPigs instance = Guice.createInjector().getInstance(KingOfPigs.class);
 		System.out.println(instance);
 		System.out.println("Guice is gone:");

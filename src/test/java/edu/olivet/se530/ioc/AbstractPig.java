@@ -1,13 +1,13 @@
 package edu.olivet.se530.ioc;
 
-public class AbstractPig {
+class AbstractPig {
 	public AbstractPig() {}
 	
-	public AbstractPig(int weight) {
+	AbstractPig(int weight) {
 		this.weight = weight;
 	}
 	
-	protected int weight;
+	private int weight;
 	public int getWeight() {
 		return weight;
 	}
