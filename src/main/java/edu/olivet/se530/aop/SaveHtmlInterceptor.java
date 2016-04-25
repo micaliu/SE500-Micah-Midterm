@@ -1,12 +1,12 @@
 package edu.olivet.se530.aop;
 
-import java.io.File;
-
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jsoup.nodes.Document;
+
+import java.io.File;
 
 /**
  * 保存亚马逊网页到本地文件夹，方便后续跟踪和排查问题
@@ -16,11 +16,16 @@ public class SaveHtmlInterceptor implements MethodInterceptor {
 
 	@Override
 	public Object invoke(MethodInvocation invocation) throws Throwable {
-		Document doc = (Document) invocation.proceed();
-		String isbn = invocation.getArguments()[0].toString();
-		String cond = invocation.getArguments()[1].toString();
-		String dir = new File(StringUtils.EMPTY).getAbsolutePath() + File.separator + "webpages";
-		FileUtils.writeStringToFile(new File(dir, isbn + "_" + cond + ".html"), doc.html(), "UTF-8");
+        Object result = invocation.proceed();
+        Object[] arguments = invocation.getArguments();
+        if (!(result instanceof Document) || ArrayUtils.isEmpty(arguments) || arguments.length < 2) {
+            return result;
+        }
+
+        Document doc = (Document) result;
+        String isbn = arguments[0].toString();
+		String cond = arguments[1].toString();
+		FileUtils.writeStringToFile(new File("webpages", isbn + "_" + cond + ".html"), doc.html(), "UTF-8");
 		return doc;
 	}
 	

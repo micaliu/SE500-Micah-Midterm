@@ -1,5 +1,7 @@
 package edu.olivet.se530.model;
 
+import com.google.common.collect.ComparisonChain;
+
 /**
  * 亚马逊某种产品Offer，包含了定价、运费、商家等信息
  * <a href="mailto:nathanaelibport@gmail.com">Nathanael Yang</a> Jan 14, 2015 10:01:53 AM
@@ -51,16 +53,9 @@ public class Offer implements Comparable<Offer> {
 	
 	@Override
 	public int compareTo(Offer o) {
-		int rc = Float.compare(this.price, o.price);
-		if (rc == 0) {
-			rc = Float.compare(this.shippingPrice, o.shippingPrice);
-			if (rc == 0) {
-				rc = -Integer.compare(this.getSeller().getRating(), o.getSeller().getRating());
-				if (rc == 0) {
-					return -Integer.compare(this.getSeller().getRatingCount(), o.getSeller().getRatingCount());
-				}
-			}
-		}
-		return rc;
+        return ComparisonChain.start()
+                .compare(this.price, o.price).compare(this.shippingPrice, o.shippingPrice)
+                .compare(o.getSeller().getRating(), this.getSeller().getRating())
+                .compare(o.getSeller().getRatingCount(), this.getSeller().getRatingCount()).result();
 	}
 }
