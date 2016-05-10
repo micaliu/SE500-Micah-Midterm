@@ -23,8 +23,9 @@ public class SellerHunter {
 	 * @param isbn		产品的ISBN编号，参见:{@link Product#getIsbn()}
 	 * @param condition	产品的Condition
 	 */
-	public Offer huntOffer(String isbn, String condition) throws IOException {
-		Document doc = htmlFetcher.getDocument(isbn, condition);
+	public Offer huntOffer(String isbn, String condition,int page) throws IOException {
+
+		Document doc = htmlFetcher.getDocument(isbn, condition, page);
 		List<Offer> offers = htmlParser.parseOffer(doc);
 		
 		for (Iterator<Offer> iterator = offers.iterator(); iterator.hasNext();) {
@@ -42,7 +43,7 @@ public class SellerHunter {
 	 * 对一个Offer按照价格、运费、Rating等等标准进行审查
 	 */
     private boolean evaluate(Offer offer) {
-		return offer.getSeller().getRating() >= 95;
+		return offer.getSeller().getRating() >= 95 && offer.getSeller().getRatingCount()>100 && offer.getSeller().getShippingCountry()!="United Kingdom";
 	}
 
 	public void setHtmlFetcher(HtmlCrawler htmlFetcher) {

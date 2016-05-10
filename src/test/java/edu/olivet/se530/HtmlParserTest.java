@@ -26,39 +26,39 @@ public class HtmlParserTest {
 	private static Document document;
 	
 	@BeforeClass public static void prepareDocument() throws IOException {
-		document = new DummyHtmlCrawler().getDocument("", "");
+		document = new DummyHtmlCrawler().getDocument("0751515736", "USED",1);
 	}
 	
 	@Test public void test_parse_seller() {
 		Seller seller = htmlParser.parseSeller(document.select("div.a-row.a-spacing-mini.olpOffer").get(3));
-		Assert.assertEquals("Silver Arch Books", seller.getName());
-		Assert.assertEquals("ANHFDOMMXXZUV", seller.getUuid());
+		Assert.assertEquals("greener_books_london", seller.getName());
+		Assert.assertEquals("A161AAYHQBTAQT", seller.getUuid());
 		Assert.assertEquals(97, seller.getRating());
-		Assert.assertEquals(176841 , seller.getRatingCount());
-		Assert.assertEquals("MO", seller.getShippingState());
-		Assert.assertEquals("United States", seller.getShippingCountry());
-		Assert.assertTrue(seller.isExpeditedShippingAvailable());
+		Assert.assertEquals(36246 , seller.getRatingCount());
+		Assert.assertEquals(null, seller.getShippingState());
+		Assert.assertEquals("United Kingdom", seller.getShippingCountry());
+		Assert.assertFalse(seller.isExpeditedShippingAvailable());
 		Assert.assertTrue(seller.isIntlShippingAvailable());
 	}
 	
 	@Test public void test_parse_condtion() {
 		Condition cond = htmlParser.parseCondition(document.select("div.a-row.a-spacing-mini.olpOffer").get(3));
-		Assert.assertEquals(new Condition("Used", "Acceptable"),  cond);
+		Assert.assertEquals(new Condition("Used", "Good"),  cond);
 	}
 	
 	@Test
 	public void testParseOffer() {
 		List<Offer> offers = htmlParser.parseOffer(document);
-		Assert.assertTrue(3.98f == offers.get(0).getPrice());
-		Assert.assertTrue(0.0f == offers.get(0).getShippingPrice());
+		Assert.assertTrue(0.77f == offers.get(0).getPrice());
+		Assert.assertTrue(3.99f == offers.get(0).getShippingPrice());
 		Assert.assertTrue(3.99f == offers.get(3).getShippingPrice());
 	}
 
 	@Test
 	public void testGetText() {
-		Assert.assertEquals("internationalbooks", htmlParser.getText(document, "#olpTabContent > div > div.a-section.a-spacing-double-large > div:nth-child(7) > div.a-column.a-span2.olpSellerColumn > p.a-spacing-small.olpSellerName > span > a"));
+		Assert.assertEquals("brit-books-usa", htmlParser.getText(document, "#olpTabContent > div > div.a-section.a-spacing-double-large > div:nth-child(7) > div.a-column.a-span2.olpSellerColumn > p.a-spacing-small.olpSellerName > span > a"));
 		Assert.assertEquals("In Stock.", htmlParser.getText(document, "#olpTabContent > div > div.a-section.a-spacing-double-large > div:nth-child(7) > div.a-column.a-span3.olpDeliveryColumn > ul > li:nth-child(1) > span"));
-		Assert.assertEquals("Amazon Prime TM", htmlParser.getText(document, "#olpTabContent > div > div.a-section.a-spacing-double-large > div:nth-child(7) > div:nth-child(1) > span.supersaver > i"));
+		Assert.assertEquals("97% positive", htmlParser.getText(document, "#olpTabContent > div > div.a-section.a-spacing-double-large > div:nth-child(5) > div.a-column.a-span2.olpSellerColumn > p:nth-child(2) > a > b"));
 	}
 
 }

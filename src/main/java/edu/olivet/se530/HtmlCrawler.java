@@ -6,5 +6,5 @@ import org.jsoup.nodes.Document;
 
 public interface HtmlCrawler {
 
-	Document getDocument(String isbn, String condition) throws IOException;
+	Document getDocument(String isbn, String condition,int page) throws IOException;
 }

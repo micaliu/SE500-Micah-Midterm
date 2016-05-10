@@ -26,6 +26,11 @@ public class HtmlParser {
 			Seller seller = this.parseSeller(row);
 			Condition condition = parseCondition(row);
 			offer.setSeller(seller);
+			if(offer.getSeller().getName()=="AP"){
+				if(offer.getPrice()<35.00){
+					offer.setShippingPrice(Float.parseFloat("3.99"));
+				}
+			}
 			offer.setCondition(condition);
 
 			results.add(offer);
@@ -37,10 +42,15 @@ public class HtmlParser {
 	@Profile
 	Condition parseCondition(Element row) {
 		String cond = this.getText(row, "h3.a-spacing-small.olpCondition");
-		String[] array = cond.split("-");
 		Condition condition = new Condition();
-		condition.setPrimary(array[0].trim());
-		condition.setSecondary(array[1].trim());
+		if(cond != null && cond.indexOf('-')>-1){
+			String[] array = cond.split("-");
+			condition.setPrimary(array[0].trim());
+			condition.setSecondary(array[1].trim());
+		}else{
+			condition.setPrimary(cond);
+		}
+
 		return condition;
 	}
 
@@ -48,17 +58,27 @@ public class HtmlParser {
 	Seller parseSeller(Element row) {
 		Seller seller = new Seller();
 		String sellerNameSelector = "p.a-spacing-small.olpSellerName";
-		seller.setName(this.getText(row, sellerNameSelector));
-		String link = row.select(sellerNameSelector + " a").get(0).attr("href");
-		seller.setUuid(link.replaceFirst(".*&seller=", ""));
-		
-		String ratingText = this.getText(row, "p.a-spacing-small > a > b");
-		int rating = Integer.parseInt(ratingText.replaceAll("[^0-9]", ""));
-		seller.setRating(rating);
-		
-		String ratingCountText = this.getText(row, "div.a-column.a-span2.olpSellerColumn > p:nth-child(2)");
-		ratingCountText = ratingCountText.substring(ratingCountText.indexOf('('), ratingCountText.indexOf(')')).replaceAll("[^0-9]", "");
-		seller.setRatingCount(Integer.parseInt(ratingCountText));
+
+		if(this.getText(row, sellerNameSelector)!=null && this.getText(row, sellerNameSelector).length()>0){
+			seller.setName(this.getText(row, sellerNameSelector));
+			String link = row.select(sellerNameSelector + " a").get(0).attr("href");
+			seller.setUuid(link.replaceFirst(".*&seller=", ""));
+			String ratingText = this.getText(row, "p.a-spacing-small > a > b");
+			if(ratingText!=null){
+				int rating = Integer.parseInt(ratingText.replaceAll("[^0-9]", ""));
+				seller.setRating(rating);
+			}
+			String ratingCountText = this.getText(row, "div.a-column.a-span2.olpSellerColumn > p:nth-child(2)");
+			if(ratingCountText!=null){
+				ratingCountText = ratingCountText.substring(ratingCountText.indexOf('('), ratingCountText.indexOf(')')).replaceAll("[^0-9]", "");
+				seller.setRatingCount(Integer.parseInt(ratingCountText));
+			}
+		}else{
+			seller.setName("AP");
+			seller.setRating(Integer.MAX_VALUE);
+			seller.setRatingCount(Integer.MAX_VALUE);
+		}
+
 		
 		Elements deliveries = row.select("ul.a-vertical > li > span.a-list-item");
 		for (Element element : deliveries) {
@@ -71,6 +91,8 @@ public class HtmlParser {
 				String[] array = text.replace("Ships from", "").split(",");
 				seller.setShippingState(array[0].trim());
 				seller.setShippingCountry(array[1].trim().replace(".", ""));
+			}else if(text.matches("(.*)United Kingdom(.*)")){
+				seller.setShippingCountry("United Kingdom");
 			}
 		}
 		return seller;

@@ -3,6 +3,7 @@ package edu.olivet.se530;
 import java.io.IOException;
 import java.net.URL;
 
+import edu.olivet.se530.annotations.Repeat;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,13 +17,22 @@ public class HtmlCrawlerImpl implements HtmlCrawler {
 	@Override
 	@Profile(desc = "通过给定的isbn和condition获取对应的html document")
 	@SaveHtml
-	public Document getDocument(String isbn, String condition) throws IOException {
-		String url = String.format("%s/gp/offer-listing/%s/ref=olp_tab_%s?ie=UTF8&condition=%s&sr=8-1", 
-				     AMAZON_HOST, isbn, condition.toLowerCase(), condition.toLowerCase());
+	public Document getDocument(String isbn, String condition, int page) throws IOException {
+		if(isbn.length()!=10){
+			isbn = String.format("%10s",isbn).replace(' ','0');
+		}
+		if(condition.indexOf('-')>-1){
+			condition = condition.substring(0,condition.indexOf('-')).trim();
+		}
+		int startIndex = (page-1)*10;
+
+		String url = String.format("%s/gp/offer-listing/%s/ref=olp_tab_%s?ie=UTF8&condition=%s&sr=8-1&startIndex=%s",
+				     AMAZON_HOST, isbn, condition.toLowerCase(), condition.toLowerCase(),startIndex);
+		System.out.print(url);
 		Connection conn = this.getConnection(new URL(url));
         return conn.get();
 	}
-	
+	@Repeat
 	private Connection getConnection(URL url) {
 		Connection conn = Jsoup.connect(url.toExternalForm());
 		conn.timeout(8000);

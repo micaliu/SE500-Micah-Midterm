@@ -54,7 +54,7 @@ public class Offer implements Comparable<Offer> {
 	@Override
 	public int compareTo(Offer o) {
         return ComparisonChain.start()
-                .compare(this.price, o.price).compare(this.shippingPrice, o.shippingPrice)
+                .compare(this.price+this.shippingPrice, o.price+o.shippingPrice)
                 .compare(o.getSeller().getRating(), this.getSeller().getRating())
                 .compare(o.getSeller().getRatingCount(), this.getSeller().getRatingCount()).result();
 	}
